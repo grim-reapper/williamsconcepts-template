@@ -438,7 +438,6 @@ class CI_Template {
       
       $this->CI->load->helper('url');
 
-      $file_version = filemtime($script);
       
       switch ($type)
       {
@@ -448,6 +447,7 @@ class CI_Template {
 
             if ($version && $file_version)
             {
+              $file_version = filemtime($script);
               $filepath .= '?v='.$file_version;
             }  
 
@@ -471,12 +471,23 @@ class CI_Template {
 
             if ($version && $file_version)
             {
+              $file_version = filemtime($script);
               $script .= '?v='.$file_version;
             }  
 
             
             $js .= '</script>';
             break;
+
+         case 'external':
+            $js = '<script type="text/javascript" src="'. $script .'"';
+            if ($defer)
+            {
+               $js .= ' defer="defer"';
+            }
+            $js .= "></script>";
+            break;            
+
             
          default:
             $success = FALSE;
